@@ -1,0 +1,24 @@
+#!/bin/sh
+
+#shift
+TO=dev@mysql.com
+FROM=$USER@mysql.com
+
+BK_STATUS=$BK_STATUS$BK_COMMIT
+
+if [ "$BK_STATUS" = OK ]
+then 
+ echo "Commit successful, notifying developers at $TO"
+ (
+   cat <<EOF
+From: $FROM
+To: $TO
+Subject: bk commit
+
+EOF
+  bk changes -v -r+
+  bk cset -r+ -d
+ ) | /usr/sbin/sendmail -t
+else
+ echo "commit failed because '$BK_STATUS', sorry life is hard..." 
+fi

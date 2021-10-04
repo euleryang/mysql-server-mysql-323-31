@@ -1,0 +1,9 @@
+#! /bin/sh
+
+path=`dirname $0`
+. "$path/SETUP.sh"
+
+extra_flags="$sparc_cflags -DHAVE_PURIFY -O2"
+extra_configs="$sparc_configs --with-debug=full"
+
+. "$path/FINISH.sh"
